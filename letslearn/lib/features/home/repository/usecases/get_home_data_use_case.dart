@@ -1,3 +1,5 @@
+import '../../data/data/repository/implimentation/home_repository_impl.dart';
+import '../domain/dashboard_entity.dart';
 import '../interfaces/home_repository.dart';
 
 class GetHomeDataUseCase {
@@ -5,7 +7,7 @@ class GetHomeDataUseCase {
 
   GetHomeDataUseCase(this.repository);
 
-  Future<List<dynamic>> call() async {
+  Future<DashboardEntity> call() async {
     return await repository.getHomeData();
   }
 }

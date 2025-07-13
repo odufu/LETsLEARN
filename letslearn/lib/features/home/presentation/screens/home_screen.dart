@@ -1,99 +1,113 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../../../core/core/widgets/bottom_nav_bar.dart';
 import '../../../../core/providers/theme_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);  
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: themeProvider.themeData.scaffoldBackgroundColor,
-        title:  Text(
+        title: const Text(
           'EduPrep',
           style: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface,
+            color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
         actions: [
           IconButton(
-            icon:  Icon(Icons.settings, color:  Theme.of(context).colorScheme.onSurface),
+            icon: const Icon(Icons.settings, color: Colors.white),
             onPressed: () {},
           ),
         ],
       ),
-      body: ListView(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        children: [
-           Text(
-            'Explore',
-            style: TextStyle(
-              color:  Theme.of(context).colorScheme.onSurface,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Dashboard',
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
-          _buildListTile(
-            context,
-            icon: Icons.book,
-            title: 'Learning',
-            subtitle: 'Structured learning modules',
-          ),
-          _buildListTile(
-            context,
-            icon: Icons.edit,
-            title: 'Practice',
-            subtitle: 'Practice questions and mock exams',
-          ),
-          _buildListTile(
-            context,
-            icon: Icons.person,
-            title: 'Tutor Connect',
-            subtitle: 'Connect with tutors',
-          ),
-          _buildListTile(
-            context,
-            icon: Icons.forum,
-            title: 'Support',
-            subtitle: 'Community forum for discussions',
-          ),
-          _buildListTile(
-            context,
-            icon: Icons.share,
-            title: 'Social',
-            subtitle: 'Share your progress',
-          ),
-          _buildListTile(
-            context,
-            icon: Icons.account_circle,
-            title: 'Profile',
-            subtitle: 'Your profile and settings',
-          ),
-        ],
+            const SizedBox(height: 16),
+            _buildInsightCard(
+              context,
+              title: 'Learning Progress',
+              value: '75%', // Placeholder
+              icon: Icons.school,
+            ),
+            _buildInsightCard(
+              context,
+              title: 'Test Progress',
+              value: '60%', // Placeholder
+              icon: Icons.description,
+            ),
+            _buildInsightCard(
+              context,
+              title: 'Visits',
+              value: '15', // Placeholder
+              icon: Icons.visibility,
+            ),
+            _buildInsightCard(
+              context,
+              title: 'Daily Streak',
+              value: '7 days', // Placeholder
+              icon: Icons.local_fire_department,
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Friends Activities',
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            _buildActivityTile('John completed a test'), // Placeholder
+            _buildActivityTile('Alice started a module'), // Placeholder
+          ],
+        ),
       ),
-      bottomNavigationBar:BottomNavBar(
+      bottomNavigationBar: BottomNavBar(
         onTap: (index) {
           // Handle navigation based on index
-          // Example: Navigate to respective screens
         },
-        currentIndex: 0, // Default to Home
+        currentIndex: 0,
       ),
     );
   }
 
-  Widget _buildListTile(BuildContext context, {required IconData icon, required String title, required String subtitle}) {
-     final themeProvider = Provider.of<ThemeProvider>(context);
+  Widget _buildInsightCard(BuildContext context, {required String title, required String value, required IconData icon}) {
+        final themeProvider = Provider.of<ThemeProvider>(context);
+
+    return Card(
+      color: themeProvider.themeData.cardColor,
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      child: ListTile(
+        leading: Icon(icon, color: themeProvider.themeData.iconTheme.color),
+        title: Text(title, style: themeProvider.themeData.textTheme.bodyMedium),
+        trailing: Text(value, style: themeProvider.themeData.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold)),
+      ),
+    );
+  }
+
+  Widget _buildActivityTile(String activity) {
+    
     return ListTile(
-      leading: Icon(icon, color: themeProvider.themeData.iconTheme.color),
-      title: Text(title, style: themeProvider.themeData.textTheme.bodyMedium),
-      subtitle: Text(subtitle, style: themeProvider.themeData.textTheme.bodySmall),
-      onTap: () {
-        // Handle navigation to respective feature
-      },
+      leading: const Icon(Icons.person, color: Colors.white70),
+      title: Text(activity, ),
     );
   }
 }

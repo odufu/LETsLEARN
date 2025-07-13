@@ -1,18 +1,22 @@
-import 'package:flutter/material.dart';
-
-import '../models/home_model.dart';
+import '../models/dashboard_model.dart';
 
 abstract class HomeDataSource {
-  Future<List<HomeModel>> getHomeData();
+  Future<DashboardModel> getDashboardData();
 }
 
 class HomeDataSourceImpl implements HomeDataSource {
   @override
-  Future<List<HomeModel>> getHomeData() async {
+  Future<DashboardModel> getDashboardData() async {
     // Simulated data (replace with API call or database)
-    return [
-      HomeModel(title: 'Learning', icon: Icons.book),
-      HomeModel(title: 'Practice', icon: Icons.edit),
-    ];
+    return DashboardModel(
+      learningProgress: 75,
+      testProgress: 60,
+      visitCount: 15,
+      dailyStreak: 7,
+      friendsActivities: [
+        "John completed a test",
+        "Alice started a module",
+      ],
+    );
   }
 }
