@@ -1,13 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/theme_provider.dart';
-
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:intl/intl.dart'; // For date formatting
+import '../../../../core/providers/theme_provider.dart'; // For date formatting
 
 class DateHeatmapWidget extends StatelessWidget {
   final List<int> activityLevels; // Array of activity levels (0-4) for each day
@@ -17,7 +13,7 @@ class DateHeatmapWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    final now = DateTime.now(); // 05:27 PM WAT, Tuesday, July 15, 2025
+    final now = DateTime.now(); // 05:31 PM WAT, Tuesday, July 15, 2025
     final daysToShow = 7;
     final dates = List.generate(daysToShow, (index) => now.subtract(Duration(days: daysToShow - 1 - index)));
 
@@ -51,6 +47,7 @@ class DateHeatmapWidget extends StatelessWidget {
                 final date = dates[index];
                 final activityLevel = effectiveActivityLevels[index].clamp(0, 4);
                 final color = _getHeatmapColor(activityLevel);
+                final icon = _getActivityIcon(activityLevel);
 
                 return Container(
                   width: cellWidth.clamp(24, 32), // Minimum 24px, max 32px
@@ -60,15 +57,25 @@ class DateHeatmapWidget extends StatelessWidget {
                     color: color,
                     borderRadius: BorderRadius.circular(4),
                     border: Border.all(color: Colors.grey[300]!, width: 1),
-                    // Debug border
                   ),
                   child: Center(
-                    child: Text(
-                      DateFormat('d').format(date), // Day number (e.g., 9, 10)
-                      style: themeProvider.themeData.textTheme.bodySmall?.copyWith(
-                        color: _getTextColor(color),
-                        fontSize: 10,
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          DateFormat('d').format(date), // Day number (e.g., 9, 10)
+                          style: themeProvider.themeData.textTheme.bodySmall?.copyWith(
+                            color: _getTextColor(color),
+                            fontSize: 10,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Icon(
+                          icon,
+                          size: 12,
+                          color: _getTextColor(color),
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -89,6 +96,23 @@ class DateHeatmapWidget extends StatelessWidget {
       const Color(0xFF3B82F6), // Level 4: Max activity (blue accent)
     ];
     return colors[level] ?? Colors.grey[300]!;
+  }
+
+  IconData _getActivityIcon(int level) {
+    switch (level) {
+      case 0:
+        return Icons.close; // No activity
+      case 1:
+        return Icons.remove; // Low activity
+      case 2:
+        return Icons.minimize; // Moderate activity
+      case 3:
+        return Icons.check; // High activity
+      case 4:
+        return Icons.check_circle; // Max activity
+      default:
+        return Icons.help; // Fallback
+    }
   }
 
   Color _getTextColor(Color backgroundColor) {

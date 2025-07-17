@@ -4,6 +4,7 @@ import '../theme/lightMode.dart' as light;
 
 class ThemeProvider extends ChangeNotifier {
   ThemeData _themeData = dark.darkTheme;
+  // ThemeData _themeData = light.lightTheme;
   bool _isDarkMode = false;
 
   ThemeData get themeData => _themeData;

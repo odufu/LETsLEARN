@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
-  primaryColor: const Color(0xFFEFF0F3),
+  primaryColor: const Color(0xFF2A6CDF),
   scaffoldBackgroundColor: const Color(0xFFEFF0F3),
   appBarTheme: const AppBarTheme(
     backgroundColor: Color(0xFFEFF0F3),
@@ -26,7 +26,7 @@ final ThemeData lightTheme = ThemeData(
     selectedItemColor: Colors.black,
     unselectedItemColor: Colors.black54,
   ),
-  cardColor: const Color(0xFFD3D4D8),
+  cardColor: const Color.fromARGB(255, 234, 234, 234),
   buttonTheme: const ButtonThemeData(
     buttonColor: Color(0xFFB0B2C0),
     textTheme: ButtonTextTheme.primary,
